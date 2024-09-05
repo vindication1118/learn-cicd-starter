@@ -7,22 +7,21 @@ import (
 )
 
 type apiKeyTest struct {
-	headerKey string;
-	headerValue string;
-	expectedResponse string;
-	errorMessage error;
+	headerKey        string
+	headerValue      string
+	expectedResponse string
+	errorMessage     error
 }
 
 var addTests = []apiKeyTest{
 	apiKeyTest{"Authorization", "asdf", "", errors.New("malformed authorization header")},
 	apiKeyTest{"something", "asdf", "", errors.New("no authorization header included")},
 	apiKeyTest{"Authorization", "ApiKey asdfasdf", "asdfasdf", nil},
-
 }
 
 func TestGetAPIKey(t *testing.T) {
 
-	for _, test := range addTests{
+	for _, test := range addTests {
 		testHeader := http.Header{}
 		testHeader.Set(test.headerKey, test.headerValue)
 		outputResponse, errorResponse := GetAPIKey(testHeader)
